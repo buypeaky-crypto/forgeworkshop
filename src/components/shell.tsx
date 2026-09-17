@@ -27,6 +27,7 @@ const NAV = [
   { to: "/bay" as const, label: "Bay" },
   { to: "/vault" as const, label: "Vault" },
   { to: "/conduit" as const, label: "Router" },
+  { to: "/subscribe" as const, label: "Subscribe" },
   { to: "/donate" as const, label: "Donate" },
 ];
 
@@ -71,12 +72,20 @@ export function Shell({ children }: { children: ReactNode }) {
             </a>
             .
           </p>
-          <Link
-            to="/donate"
-            className="inline-flex min-h-11 items-center text-xs text-muted hover:text-fg"
-          >
-            Small donation — BTC, ETH, SOL
-          </Link>
+          <div className="flex flex-wrap items-center gap-4">
+            <Link
+              to="/subscribe"
+              className="inline-flex min-h-11 items-center text-xs text-muted hover:text-fg"
+            >
+              PayPal monthly
+            </Link>
+            <Link
+              to="/donate"
+              className="inline-flex min-h-11 items-center text-xs text-muted hover:text-fg"
+            >
+              Small donation — BTC, ETH, SOL
+            </Link>
+          </div>
         </div>
       </footer>
     </div>

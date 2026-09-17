@@ -18,6 +18,10 @@ export const Route = createRootRoute({
           "Forge pins public Hugging Face models into a local bay and vault. Independent of xAI.",
       },
       { name: "theme-color", content: "#0a0a0b" },
+      {
+        name: "domain-verification",
+        content: "39b294769b934653e01a3e01eb0ada83a2cbe69fdbfd161cb3e9cfeb98cf9418",
+      },
     ],
     links: [
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },

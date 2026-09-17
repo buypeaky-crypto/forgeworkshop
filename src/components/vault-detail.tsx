@@ -8,6 +8,7 @@ import type { ReportReason, VaultRecord } from "@/lib/vault/types";
 import { REPORT_REASONS } from "@/lib/vault/types";
 import { hubCardUrl, hubTreeUrl, webseedUrl } from "@/lib/vault/webseed";
 import { formatBytes, shortSha } from "@/lib/utils";
+import { TrustPanel } from "@/components/trust-panel";
 
 async function copyText(value: string) {
   try {
@@ -72,6 +73,14 @@ export function VaultDetail({
       </div>
 
       <p className="mt-4 px-5 text-xs leading-relaxed text-subtle">{SAFETY_DISCLAIMER}</p>
+
+      <TrustPanel
+        id={record.id}
+        revision={record.revision}
+        license={record.license}
+        localPin
+        initialFiles={record.files}
+      />
 
       <div className="mt-5 min-h-0 flex-1 overflow-y-auto px-5">
         <p className="text-xs font-medium tracking-[0.14em] text-muted uppercase">Files</p>

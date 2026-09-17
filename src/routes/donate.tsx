@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { DonateAsk } from "@/components/donate";
 import { Shell } from "@/components/shell";
 
@@ -17,9 +17,12 @@ function DonatePage() {
           Donate
         </h1>
         <p className="mt-4 text-base leading-relaxed text-muted">
-          Forge is a public catalog and a local router. There is no paid API
-          behind it and no xAI spend. A small send on Bitcoin, Ethereum, or
-          Solana is the whole ask.
+          One-time sends on Bitcoin, Ethereum, or Solana. For a monthly
+          subscription (Vault Pro, Signals API, Sponsor) use{" "}
+          <Link to="/subscribe" className="text-fg hover:text-muted">
+            PayPal plans
+          </Link>
+          . There is no xAI spend.
         </p>
         <div className="mt-10">
           <DonateAsk />

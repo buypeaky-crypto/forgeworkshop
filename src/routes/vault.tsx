@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { VaultCard } from "@/components/vault-card";
 import { VaultDetail } from "@/components/vault-detail";
 import { VaultPolicy } from "@/components/vault-policy";
+import { VaultPerks } from "@/components/vault-perks";
 import { vaultList, useVault } from "@/lib/vault/store";
 import { formatRelative } from "@/lib/utils";
 import { cn } from "@/lib/utils";
@@ -190,6 +191,7 @@ function VaultPage() {
             ) : null}
           </div>
         ) : null}
+        <VaultPerks />
       </main>
     </Shell>
   );

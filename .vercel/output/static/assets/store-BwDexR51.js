@@ -1,0 +1,1 @@
+import{n as e,t}from"./middleware-P7zECeoH.js";var n=e()(t(e=>({subscription:null,setSubscription:t=>e({subscription:t}),clear:()=>e({subscription:null})}),{name:`forge-paypal-v1`}));function r(e,t){return e?.planKey===t}export{n,r as t};

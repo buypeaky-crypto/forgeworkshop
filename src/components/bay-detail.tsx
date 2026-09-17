@@ -7,6 +7,7 @@ import type { BayModel, ScoreParts } from "@/lib/bay/types";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { VaultPinButton } from "@/components/vault-pin";
+import { TrustPanel } from "@/components/trust-panel";
 import { formatCount, formatRelative, shortSha } from "@/lib/utils";
 
 async function copyText(value: string) {
@@ -125,6 +126,13 @@ export function BayDetail({ model, onClose }: { model: BayModel; onClose: () => 
           </Button>
         </div>
       ) : null}
+
+      <TrustPanel
+        id={model.id}
+        revision={model.snapshot.sha}
+        license={model.snapshot.license}
+        localPin
+      />
 
       <div className="mt-5 px-5">
         <p className="text-xs font-medium tracking-[0.14em] text-muted uppercase">Score</p>

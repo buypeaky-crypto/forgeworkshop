@@ -14,6 +14,7 @@ import { Route as BayRouteImport } from './routes/bay'
 import { Route as ConduitRouteImport } from './routes/conduit'
 import { Route as DonateRouteImport } from './routes/donate'
 import { Route as HuggingfaceRouteImport } from './routes/huggingface'
+import { Route as SubscribeRouteImport } from './routes/subscribe'
 import { Route as VaultRouteImport } from './routes/vault'
 
 const IndexRoute = IndexRouteImport.update({
@@ -41,6 +42,11 @@ const HuggingfaceRoute = HuggingfaceRouteImport.update({
   path: '/huggingface',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SubscribeRoute = SubscribeRouteImport.update({
+  id: '/subscribe',
+  path: '/subscribe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const VaultRoute = VaultRouteImport.update({
   id: '/vault',
   path: '/vault',
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/conduit': typeof ConduitRoute
   '/donate': typeof DonateRoute
   '/huggingface': typeof HuggingfaceRoute
+  '/subscribe': typeof SubscribeRoute
   '/vault': typeof VaultRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/conduit': typeof ConduitRoute
   '/donate': typeof DonateRoute
   '/huggingface': typeof HuggingfaceRoute
+  '/subscribe': typeof SubscribeRoute
   '/vault': typeof VaultRoute
 }
 export interface FileRoutesById {
@@ -70,13 +78,28 @@ export interface FileRoutesById {
   '/conduit': typeof ConduitRoute
   '/donate': typeof DonateRoute
   '/huggingface': typeof HuggingfaceRoute
+  '/subscribe': typeof SubscribeRoute
   '/vault': typeof VaultRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/bay' | '/conduit' | '/donate' | '/huggingface' | '/vault'
+  fullPaths:
+    | '/'
+    | '/bay'
+    | '/conduit'
+    | '/donate'
+    | '/huggingface'
+    | '/subscribe'
+    | '/vault'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/bay' | '/conduit' | '/donate' | '/huggingface' | '/vault'
+  to:
+    | '/'
+    | '/bay'
+    | '/conduit'
+    | '/donate'
+    | '/huggingface'
+    | '/subscribe'
+    | '/vault'
   id:
     | '__root__'
     | '/'
@@ -84,6 +107,7 @@ export interface FileRouteTypes {
     | '/conduit'
     | '/donate'
     | '/huggingface'
+    | '/subscribe'
     | '/vault'
   fileRoutesById: FileRoutesById
 }
@@ -93,6 +117,7 @@ export interface RootRouteChildren {
   ConduitRoute: typeof ConduitRoute
   DonateRoute: typeof DonateRoute
   HuggingfaceRoute: typeof HuggingfaceRoute
+  SubscribeRoute: typeof SubscribeRoute
   VaultRoute: typeof VaultRoute
 }
 
@@ -133,6 +158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HuggingfaceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/subscribe': {
+      id: '/subscribe'
+      path: '/subscribe'
+      fullPath: '/subscribe'
+      preLoaderRoute: typeof SubscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/vault': {
       id: '/vault'
       path: '/vault'
@@ -149,6 +181,7 @@ const rootRouteChildren: RootRouteChildren = {
   ConduitRoute: ConduitRoute,
   DonateRoute: DonateRoute,
   HuggingfaceRoute: HuggingfaceRoute,
+  SubscribeRoute: SubscribeRoute,
   VaultRoute: VaultRoute,
 }
 export const routeTree = rootRouteImport

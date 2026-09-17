@@ -105,6 +105,12 @@ function Home() {
           >
             Open vault
           </Link>
+          <Link
+            to="/subscribe"
+            className="inline-flex min-h-11 items-center rounded-full bg-raised px-4 text-sm text-muted hover:text-fg"
+          >
+            Subscribe
+          </Link>
         </div>
 
         <section className="mt-16">

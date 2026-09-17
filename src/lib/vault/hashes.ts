@@ -22,3 +22,24 @@ export type HubTreeEntry = {
 export function fileSha256(entry: HubTreeEntry): string | null {
   return parseSha256(entry.lfs?.oid);
 }
+
+export function hashedFilesFromTree(tree: HubTreeEntry[]): {
+  path: string;
+  size: number;
+  sha256: string;
+}[] {
+  const files: { path: string; size: number; sha256: string }[] = [];
+  for (const entry of tree) {
+    if (entry.type && entry.type !== "file") continue;
+    const path = entry.path?.trim();
+    if (!path) continue;
+    const sha256 = fileSha256(entry);
+    if (!sha256) continue;
+    files.push({
+      path,
+      size: entry.lfs?.size ?? entry.size ?? 0,
+      sha256,
+    });
+  }
+  return files.slice(0, 48);
+}

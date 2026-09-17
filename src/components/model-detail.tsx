@@ -5,6 +5,7 @@ import { formatCount, formatDate } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { VaultPinButton } from "@/components/vault-pin";
+import { TrustPanel } from "@/components/trust-panel";
 
 function asList(value?: string[] | string): string[] {
   if (!value) return [];
@@ -27,7 +28,7 @@ export function ModelDetail({
   const unpin = useBay((s) => s.unpin);
 
   return (
-    <aside className="flex h-full flex-col rounded-xl bg-surface shadow-[var(--shadow-border)]">
+    <aside className="flex h-full flex-col overflow-y-auto rounded-xl bg-surface shadow-[var(--shadow-border)]">
       <div className="flex items-start justify-between gap-3 p-5 pb-4">
         <div className="min-w-0">
           <p className="font-mono text-sm leading-snug text-fg break-all">{model.id}</p>
@@ -89,6 +90,12 @@ export function ModelDetail({
           ))}
         </div>
       ) : null}
+
+      <TrustPanel
+        id={model.id}
+        revision={model.sha}
+        license={model.cardData?.license}
+      />
 
       <div className="mt-auto grid gap-2 p-5">
         {pin ? (

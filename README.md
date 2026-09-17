@@ -13,6 +13,7 @@ Source: [github.com/buypeaky-crypto/Forge](https://github.com/buypeaky-crypto/Fo
 - **Vault** — permanence pins for public, permissively licensed Hub revisions. Official SHA-256 per file. HF web-seeds first; torrent bundle is fallback. Report + hide from day one.
 - **Conduit** — a local keyword router. The prompt never leaves the browser until Forge fetches Hub metadata.
 - **Donate** — a small send on BTC, ETH, or SOL keeps the workshop independent.
+- **Subscribe** — PayPal monthly: Vault Pro $29, Signals API $49, Sponsor $19.
 
 Forge does **not** call xAI. There is no `XAI_API_KEY` in this app. Hub traffic goes to `huggingface.co/api`. Routing is a static rule table in `src/lib/conduit.ts`.
 
@@ -56,9 +57,23 @@ Report (malware / license / illegal / other) drops the pin and hides the id. Cod
 
 ## Donate
 
+One-time crypto:
+
 - **BTC** `G2dYPPTMorSSoUb68fKYbX55pARzrT1FcoRfjgYQFy9V`
 - **ETH** `0x438E7Be244e46D414f097B211cC4fa7549fB3C3b`
 - **SOL** `G2dYPPTMorSSoUb68fKYbX55pARzrT1FcoRfjgYQFy9V`
+
+## Subscribe (PayPal)
+
+Recurring plans via PayPal Business (REST Catalog Products + Billing Plans).
+
+| Plan | Price | Product |
+| --- | --- | --- |
+| Forge Vault Pro | $29/mo | 100 permanent pins, SHA-256 audit, web-seed guarantee |
+| Forge Signals API | $49/mo | 10k requests/mo, alerts, bay.json history |
+| Forge Sponsor | $19/mo | Logo in vault footer + 50 Pro pins |
+
+Set `PAYPAL_CLIENT_ID` and `PAYPAL_CLIENT_SECRET` (optional `PAYPAL_ENV=live`). Sandbox is the default. The app creates the three products and plans on first load when the Secret is present.
 
 ## Run locally
 

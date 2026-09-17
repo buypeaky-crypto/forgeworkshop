@@ -1,0 +1,1 @@
+import{g as e,n as t}from"./shell-D8ZNPwsH.js";var n=e();function r({className:e,...r}){return(0,n.jsx)(`input`,{className:t(`h-11 w-full rounded-lg bg-surface px-3.5 text-sm text-fg outline-none`,`shadow-[var(--shadow-border)] placeholder:text-subtle`,`focus-visible:shadow-[var(--shadow-border-hover)]`,e),...r})}export{r as t};

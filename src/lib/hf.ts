@@ -1,5 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import type { TrustCard, VerifyFileResult } from "@/lib/trust/types";
+import { hashedFilesFromTree } from "@/lib/vault/hashes";
+import { webseedUrl } from "@/lib/vault/webseed";
 
 export const TASKS = [
   { id: "", label: "All" },
@@ -89,11 +92,13 @@ const listInput = z.object({
   limit: z.number().int().min(1).max(48).optional(),
 });
 
+const UA = { "User-Agent": "Forge/1.1 (Hugging Face model workshop)" };
+
 async function hubFetch<T>(path: string): Promise<T> {
   const res = await fetch(`https://huggingface.co/api/${path}`, {
     headers: {
       Accept: "application/json",
-      "User-Agent": "Forge/1.1 (Hugging Face model workshop)",
+      ...UA,
     },
   });
   if (!res.ok) {
@@ -306,6 +311,161 @@ export const inspectForVault = createServerFn({ method: "GET" })
         sha: null,
         tree: [],
         error: err instanceof Error ? err.message : "Hub inspect failed",
+      };
+    }
+  });
+
+async function headResolve(url: string): Promise<boolean> {
+  try {
+    const head = await fetch(url, { method: "HEAD", redirect: "follow", headers: UA });
+    if (head.ok || head.status === 206) return true;
+    const range = await fetch(url, {
+      method: "GET",
+      redirect: "follow",
+      headers: { ...UA, Range: "bytes=0-0" },
+    });
+    return range.ok || range.status === 206;
+  } catch {
+    return false;
+  }
+}
+
+export const probeTrust = createServerFn({ method: "GET" })
+  .validator(
+    z.object({
+      id: z.string().min(1).max(200),
+      revision: z.string().min(1).max(80).optional(),
+    }),
+  )
+  .handler(async ({ data }): Promise<TrustCard> => {
+    const id = normalizeId(data.id);
+    try {
+      const model = asDetail(await hubFetch<HubModelDetail>(`models/${id}`));
+      const revision = data.revision?.trim() || model.sha || "main";
+      const tree = await fetchTree(id, revision);
+      const files = hashedFilesFromTree(tree);
+      const sample = files[0];
+      const resolveLive = sample
+        ? await headResolve(webseedUrl(model.id ?? id, revision, sample.path))
+        : Boolean(model.sha);
+      return {
+        id: model.id ?? id,
+        revision: model.sha ?? revision,
+        license: model.cardData?.license ?? null,
+        files,
+        hubLive: true,
+        resolveLive,
+        gated: Boolean(model.gated),
+      };
+    } catch (err) {
+      return {
+        id,
+        revision: data.revision?.trim() || null,
+        license: null,
+        files: [],
+        hubLive: false,
+        resolveLive: false,
+        gated: false,
+        error: err instanceof Error ? err.message : "Hub probe failed",
+      };
+    }
+  });
+
+const VERIFY_MAX_BYTES = 96 * 1024 * 1024;
+
+export const verifyRemoteFile = createServerFn({ method: "POST" })
+  .validator(
+    z.object({
+      id: z.string().min(1).max(200),
+      revision: z.string().min(1).max(80),
+      path: z.string().min(1).max(400),
+      expected: z.string().regex(/^[a-f0-9]{64}$/),
+      size: z.number().int().nonnegative().optional(),
+    }),
+  )
+  .handler(async ({ data }): Promise<VerifyFileResult> => {
+    const id = normalizeId(data.id);
+    const path = data.path.replace(/^\/+/, "");
+    if (path.includes("..")) {
+      return {
+        path,
+        expected: data.expected,
+        actual: null,
+        match: false,
+        source: "remote",
+        detail: "Invalid path",
+      };
+    }
+    if ((data.size ?? 0) > VERIFY_MAX_BYTES) {
+      const tree = await fetchTree(id, data.revision);
+      const hit = hashedFilesFromTree(tree).find((f) => f.path === path);
+      const lfsMatch = hit?.sha256 === data.expected;
+      return {
+        path,
+        expected: data.expected,
+        actual: hit?.sha256 ?? null,
+        match: Boolean(lfsMatch),
+        source: "lfs",
+        detail: lfsMatch
+          ? "Larger than the in-app fetch window. Official Hub LFS SHA-256 matches. Drop the local shard to hash the bytes."
+          : "Hub LFS SHA-256 does not match the catalog.",
+      };
+    }
+    const url = webseedUrl(id, data.revision, path);
+    try {
+      const res = await fetch(url, { redirect: "follow", headers: UA });
+      if (!res.ok || !res.body) {
+        return {
+          path,
+          expected: data.expected,
+          actual: null,
+          match: false,
+          source: "remote",
+          detail: `Hugging Face returned ${res.status}`,
+        };
+      }
+      const { createHash } = await import("node:crypto");
+      const hash = createHash("sha256");
+      const reader = res.body.getReader();
+      let seen = 0;
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        if (!value) continue;
+        seen += value.byteLength;
+        if (seen > VERIFY_MAX_BYTES) {
+          await reader.cancel();
+          return {
+            path,
+            expected: data.expected,
+            actual: null,
+            match: false,
+            source: "remote",
+            detail: "Fetch exceeded the in-app hash window. Drop the local shard to finish.",
+          };
+        }
+        hash.update(value);
+      }
+      const actual = hash.digest("hex");
+      return {
+        path,
+        expected: data.expected,
+        actual,
+        match: actual === data.expected,
+        source: "remote",
+        detail:
+          actual === data.expected
+            ? "Fetched bytes match the official SHA-256."
+            : "Fetched bytes do not match the official SHA-256.",
+      };
+    } catch (err) {
+      return {
+        path,
+        expected: data.expected,
+        actual: null,
+        match: false,
+        source: "remote",
+        detail: err instanceof Error ? err.message : "Verify failed",
       };
     }
   });
