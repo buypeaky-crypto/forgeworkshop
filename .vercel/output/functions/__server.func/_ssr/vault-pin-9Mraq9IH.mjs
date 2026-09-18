@@ -1,5 +1,5 @@
 import { i as __toESM } from "../_runtime.mjs";
-import { B as require_react, b as require_jsx_runtime } from "../_libs/@tanstack/react-router+[...].mjs";
+import { V as require_react, x as require_jsx_runtime } from "../_libs/@tanstack/react-router+[...].mjs";
 import { f as Archive } from "../_libs/lucide-react.mjs";
 import { t as Button } from "./button-CrCrsTzg.mjs";
 import { i as useVault } from "./trust-panel-C8FohSzZ.mjs";

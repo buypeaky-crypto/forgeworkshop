@@ -1,14 +1,14 @@
 import { i as __toESM } from "../_runtime.mjs";
-import { B as require_react, _ as Link, b as require_jsx_runtime } from "../_libs/@tanstack/react-router+[...].mjs";
+import { V as require_react, v as Link, x as require_jsx_runtime } from "../_libs/@tanstack/react-router+[...].mjs";
 import { n as cn, o as formatRelative, r as formatBytes, s as shortSha, t as Shell } from "./shell-C_CGWYDo.mjs";
 import { l as Copy, s as ExternalLink, t as X, u as Check } from "../_libs/lucide-react.mjs";
-import { h as useBay, n as Route } from "./router-B2-wW3pW.mjs";
+import { h as useBay, n as Route } from "./router-CSkploew.mjs";
 import { t as Button } from "./button-CrCrsTzg.mjs";
 import { i as hubTreeUrl, o as webseedUrl, r as hubCardUrl } from "./webseed-CX85z8gt.mjs";
 import { a as vaultList, i as useVault, n as PERMISSIVE_LICENSES, r as TrustPanel, t as Badge } from "./trust-panel-C8FohSzZ.mjs";
 import { t as Input } from "./input-RQyjWf9_.mjs";
 import { n as usePaypal, t as hasPlan } from "./store-86dT0MeV.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/vault-CJeyfTys.js
+//#region node_modules/.nitro/vite/services/ssr/assets/vault-C2fs9djq.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function VaultCard({ record, selected, onSelect }) {

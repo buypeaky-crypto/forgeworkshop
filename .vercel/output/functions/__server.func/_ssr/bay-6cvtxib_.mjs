@@ -1,13 +1,13 @@
 import { i as __toESM } from "../_runtime.mjs";
-import { B as require_react, b as require_jsx_runtime } from "../_libs/@tanstack/react-router+[...].mjs";
+import { V as require_react, x as require_jsx_runtime } from "../_libs/@tanstack/react-router+[...].mjs";
 import { i as formatCount, n as cn, o as formatRelative, s as shortSha, t as Shell } from "./shell-C_CGWYDo.mjs";
 import { a as Pin, i as RefreshCw, l as Copy, s as ExternalLink, t as X, u as Check } from "../_libs/lucide-react.mjs";
-import { a as Route$5, c as DOMAINS, d as domainCounts, f as domainMeta, h as useBay, l as bayList, m as isSyncDue, p as isDomainId, u as cliPull } from "./router-B2-wW3pW.mjs";
+import { a as Route$5, c as DOMAINS, d as domainCounts, f as domainMeta, h as useBay, l as bayList, m as isSyncDue, p as isDomainId, u as cliPull } from "./router-CSkploew.mjs";
 import { t as Button } from "./button-CrCrsTzg.mjs";
 import { r as TrustPanel, t as Badge } from "./trust-panel-C8FohSzZ.mjs";
 import { t as VaultPinButton } from "./vault-pin-9Mraq9IH.mjs";
 import { t as Input } from "./input-RQyjWf9_.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/bay-4KXXJoX6.js
+//#region node_modules/.nitro/vite/services/ssr/assets/bay-6cvtxib_.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function BayCard({ model, selected, onSelect }) {

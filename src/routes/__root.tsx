@@ -1,10 +1,16 @@
 import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
 import { AuthProvider } from "@/lib/auth/provider";
 import { BayScheduler } from "@/lib/bay/scheduler";
+import { GA_MEASUREMENT_ID, GaPageviews } from "@/components/ga";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
 import appCss from "../styles.css?url";
 
 const APP_NAME = "Forge";
+
+const GA_INLINE = `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_MEASUREMENT_ID}');`;
 
 export const Route = createRootRoute({
   head: () => ({
@@ -35,6 +41,13 @@ export const Route = createRootRoute({
         href: "https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap",
       },
     ],
+    scripts: [
+      {
+        async: true,
+        src: `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`,
+      },
+      { children: GA_INLINE },
+    ],
   }),
   component: () => (
     <html lang="en" className="dark antialiased">
@@ -44,6 +57,7 @@ export const Route = createRootRoute({
       <body className="min-h-dvh bg-bg font-sans text-fg">
         <PreviewHostBridge />
         <AuthProvider>
+          <GaPageviews />
           <BayScheduler />
           <Outlet />
         </AuthProvider>

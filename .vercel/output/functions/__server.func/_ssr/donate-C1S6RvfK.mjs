@@ -1,5 +1,5 @@
 import { i as __toESM } from "../_runtime.mjs";
-import { B as require_react, b as require_jsx_runtime } from "../_libs/@tanstack/react-router+[...].mjs";
+import { V as require_react, x as require_jsx_runtime } from "../_libs/@tanstack/react-router+[...].mjs";
 import { n as cn } from "./shell-C_CGWYDo.mjs";
 import { l as Copy, u as Check } from "../_libs/lucide-react.mjs";
 //#region node_modules/.nitro/vite/services/ssr/assets/donate-C1S6RvfK.js

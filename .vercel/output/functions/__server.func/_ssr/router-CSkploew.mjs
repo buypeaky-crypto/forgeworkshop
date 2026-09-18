@@ -1,5 +1,5 @@
 import { i as __toESM } from "../_runtime.mjs";
-import { B as require_react, b as require_jsx_runtime, f as createRouter, g as createRootRoute, h as createFileRoute, l as Scripts, m as lazyRouteComponent, p as Outlet, u as HeadContent, y as useRouter } from "../_libs/@tanstack/react-router+[...].mjs";
+import { V as require_react, _ as createRootRoute, b as useRouter, d as useRouterState, g as createFileRoute, h as lazyRouteComponent, l as Scripts, m as Outlet, p as createRouter, u as HeadContent, x as require_jsx_runtime } from "../_libs/@tanstack/react-router+[...].mjs";
 import { n as TSS_SERVER_FUNCTION, r as getServerFnById, t as createServerFn } from "./ssr.mjs";
 import { a as object, i as number, n as array, o as string, r as literal, s as union, t as _enum } from "../_libs/zod.mjs";
 import { n as create, t as persist } from "../_libs/zustand.mjs";
@@ -836,7 +836,7 @@ function ModelCardSkeleton() {
 	});
 }
 //#endregion
-//#region node_modules/.nitro/vite/services/ssr/assets/router-B2-wW3pW.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-CSkploew.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var __defProp = Object.defineProperty;
 var __exportAll = (all, no_symbols) => {
@@ -929,6 +929,23 @@ function BayScheduler() {
 			document.removeEventListener("visibilitychange", tick);
 		};
 	}, [hydrated]);
+	return null;
+}
+var GA_MEASUREMENT_ID = "G-QYQJQH756M";
+function GaPageviews() {
+	const href = useRouterState({ select: (s) => s.location.href });
+	const skipFirst = (0, import_react.useRef)(true);
+	(0, import_react.useEffect)(() => {
+		if (skipFirst.current) {
+			skipFirst.current = false;
+			return;
+		}
+		if (typeof window.gtag !== "function") return;
+		window.gtag("event", "page_view", {
+			page_location: window.location.href,
+			page_path: `${window.location.pathname}${window.location.search}`
+		});
+	}, [href]);
 	return null;
 }
 var CONNECTOR_TOKEN_READY_EVENT = "grok:connector-token-ready";
@@ -1182,6 +1199,10 @@ function PreviewHostBridge() {
 }
 var styles_default = "/assets/styles-CtNaw10W.css";
 var APP_NAME = "Forge";
+var GA_INLINE = `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_MEASUREMENT_ID}');`;
 var Route$7 = createRootRoute({
 	head: () => ({
 		meta: [
@@ -1235,7 +1256,11 @@ var Route$7 = createRootRoute({
 				rel: "stylesheet",
 				href: "https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap"
 			}
-		]
+		],
+		scripts: [{
+			async: true,
+			src: `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`
+		}, { children: GA_INLINE }]
 	}),
 	component: () => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("html", {
 		lang: "en",
@@ -1244,13 +1269,17 @@ var Route$7 = createRootRoute({
 			className: "min-h-dvh bg-bg font-sans text-fg",
 			children: [
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(PreviewHostBridge, {}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(AuthProvider, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(BayScheduler, {}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Outlet, {})] }),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(AuthProvider, { children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(GaPageviews, {}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(BayScheduler, {}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Outlet, {})
+				] }),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Scripts, {})
 			]
 		})]
 	})
 });
-var $$splitComponentImporter$6 = () => import("./routes-BM-eLyJX.mjs");
+var $$splitComponentImporter$6 = () => import("./routes-Ws0UedSz.mjs");
 var Route$6 = createFileRoute("/")({
 	loader: async () => {
 		try {
@@ -1264,7 +1293,7 @@ var Route$6 = createFileRoute("/")({
 	},
 	component: lazyRouteComponent($$splitComponentImporter$6, "component")
 });
-var $$splitComponentImporter$5 = () => import("./bay-4KXXJoX6.mjs");
+var $$splitComponentImporter$5 = () => import("./bay-6cvtxib_.mjs");
 var Route$5 = createFileRoute("/bay")({
 	validateSearch: (search) => ({
 		tab: search.tab === "exceptions" || search.tab === "policy" ? search.tab : "shelf",
@@ -1277,7 +1306,7 @@ var $$splitComponentImporter$4 = () => import("./conduit-CRX1DReP.mjs");
 var Route$4 = createFileRoute("/conduit")({ component: lazyRouteComponent($$splitComponentImporter$4, "component") });
 var $$splitComponentImporter$3 = () => import("./donate-CBqjaQMt.mjs");
 var Route$3 = createFileRoute("/donate")({ component: lazyRouteComponent($$splitComponentImporter$3, "component") });
-var $$splitComponentImporter$2 = () => import("./huggingface-Bf1f8Dci.mjs");
+var $$splitComponentImporter$2 = () => import("./huggingface-9aOmIuIy.mjs");
 var Route$2 = createFileRoute("/huggingface")({
 	validateSearch: (search) => ({
 		q: typeof search.q === "string" ? search.q : void 0,
@@ -1325,7 +1354,7 @@ function HuggingFacePending() {
 	}) });
 }
 var paypalConfig = createServerFn({ method: "GET" }).handler(createSsrRpc("d7d484e44fee0b51d4adf98fb9a771bdfd0279664153f1844458064bc22238a9"));
-var $$splitComponentImporter$1 = () => import("./subscribe-DjxGjY3z.mjs");
+var $$splitComponentImporter$1 = () => import("./subscribe-Bobv4Zmp.mjs");
 var Route$1 = createFileRoute("/subscribe")({
 	loader: async () => {
 		try {
@@ -1342,7 +1371,7 @@ var Route$1 = createFileRoute("/subscribe")({
 	},
 	component: lazyRouteComponent($$splitComponentImporter$1, "component")
 });
-var $$splitComponentImporter = () => import("./vault-CJeyfTys.mjs");
+var $$splitComponentImporter = () => import("./vault-C2fs9djq.mjs");
 var Route = createFileRoute("/vault")({
 	validateSearch: (search) => ({
 		tab: search.tab === "policy" || search.tab === "reports" ? search.tab : "catalog",

@@ -1,4 +1,4 @@
-import { b as require_jsx_runtime } from "../_libs/@tanstack/react-router+[...].mjs";
+import { x as require_jsx_runtime } from "../_libs/@tanstack/react-router+[...].mjs";
 import { n as cn } from "./shell-C_CGWYDo.mjs";
 //#region node_modules/.nitro/vite/services/ssr/assets/input-RQyjWf9_.js
 var import_jsx_runtime = require_jsx_runtime();

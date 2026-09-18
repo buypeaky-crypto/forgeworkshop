@@ -1,4 +1,4 @@
-import { _ as Link, b as require_jsx_runtime } from "../_libs/@tanstack/react-router+[...].mjs";
+import { v as Link, x as require_jsx_runtime } from "../_libs/@tanstack/react-router+[...].mjs";
 import { t as Shell } from "./shell-C_CGWYDo.mjs";
 import { t as DonateAsk } from "./donate-C1S6RvfK.mjs";
 //#region node_modules/.nitro/vite/services/ssr/assets/donate-CBqjaQMt.js

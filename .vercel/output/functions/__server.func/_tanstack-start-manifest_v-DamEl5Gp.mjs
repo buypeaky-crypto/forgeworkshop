@@ -1,4 +1,4 @@
-//#region node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-CUtIezdr.js
+//#region node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-DamEl5Gp.js
 var tsrStartManifest = () => ({ routes: {
 	__root__: {
 		filePath: "/workspace/src/routes/__root.tsx",
@@ -12,7 +12,7 @@ var tsrStartManifest = () => ({ routes: {
 			"/vault"
 		],
 		preloads: [
-			"/assets/index-1tQWRTDL.js",
+			"/assets/index-Cbq9XuPQ.js",
 			"/assets/shell-D8ZNPwsH.js",
 			"/assets/createServerFn-CcO7gI6h.js",
 			"/assets/middleware-P7zECeoH.js"
@@ -20,14 +20,14 @@ var tsrStartManifest = () => ({ routes: {
 		scripts: [{ attrs: {
 			type: "module",
 			async: !0,
-			src: "/assets/index-1tQWRTDL.js"
+			src: "/assets/index-Cbq9XuPQ.js"
 		} }]
 	},
 	"/": {
 		filePath: "/workspace/src/routes/index.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/routes-Cyo1JCPs.js",
+			"/assets/routes-Cu72oqJF.js",
 			"/assets/arrow-right-B9qLtklT.js",
 			"/assets/search-vzqMdbpr.js",
 			"/assets/button-Bs-kAPPl.js",
@@ -39,11 +39,11 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspace/src/routes/bay.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/bay-gs-TOHcx.js",
-			"/assets/vault-pin-DitmsEA2.js",
+			"/assets/bay-z3-zbstE.js",
+			"/assets/vault-pin-D4hlUErG.js",
 			"/assets/check-CcMwM2v0.js",
 			"/assets/copy-B-z2QaBX.js",
-			"/assets/trust-panel-Y6FnIRke.js",
+			"/assets/trust-panel-CAmqn-dy.js",
 			"/assets/button-Bs-kAPPl.js",
 			"/assets/input-BOtQCYWq.js"
 		]
@@ -52,7 +52,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspace/src/routes/conduit.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/conduit-ESKE66pU.js",
+			"/assets/conduit-TDbI1raf.js",
 			"/assets/arrow-right-B9qLtklT.js",
 			"/assets/button-Bs-kAPPl.js"
 		]
@@ -66,9 +66,9 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspace/src/routes/huggingface.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/huggingface-B73OzRn-.js",
-			"/assets/vault-pin-DitmsEA2.js",
-			"/assets/trust-panel-Y6FnIRke.js",
+			"/assets/huggingface-DuhiN7v6.js",
+			"/assets/vault-pin-D4hlUErG.js",
+			"/assets/trust-panel-CAmqn-dy.js",
 			"/assets/search-vzqMdbpr.js",
 			"/assets/button-Bs-kAPPl.js",
 			"/assets/input-BOtQCYWq.js"
@@ -78,7 +78,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspace/src/routes/subscribe.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/subscribe-DAzVKzhM.js",
+			"/assets/subscribe-C-ZOWoKC.js",
 			"/assets/check-CcMwM2v0.js",
 			"/assets/store-BwDexR51.js"
 		]
@@ -87,10 +87,10 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspace/src/routes/vault.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/vault-9fqU3rvV.js",
+			"/assets/vault-ImCU3G4Y.js",
 			"/assets/check-CcMwM2v0.js",
 			"/assets/copy-B-z2QaBX.js",
-			"/assets/trust-panel-Y6FnIRke.js",
+			"/assets/trust-panel-CAmqn-dy.js",
 			"/assets/button-Bs-kAPPl.js",
 			"/assets/input-BOtQCYWq.js",
 			"/assets/store-BwDexR51.js"
