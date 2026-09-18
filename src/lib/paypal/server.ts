@@ -1,12 +1,21 @@
 import { createServerFn } from "@tanstack/react-start";
 import { env } from "@/lib/env.server";
-import { PAYPAL_CLIENT_ID, PAYPAL_MODE, PAYPAL_PLAN_IDS, PLANS, type PlanKey } from "./plans";
+import {
+  PAYPAL_CLIENT_ID,
+  PAYPAL_MODE,
+  PAYPAL_PLAN_IDS,
+  PLANS,
+  planByKey,
+  type PlanKey,
+} from "./plans";
+
+export type PaypalPublicPlan = { key: PlanKey; planId: string | null; price: number };
 
 export type PaypalPublic = {
   ready: boolean;
   clientId: string | null;
   mode: "sandbox" | "live";
-  plans: { key: PlanKey; planId: string | null }[];
+  plans: PaypalPublicPlan[];
   message: string;
 };
 
@@ -71,6 +80,46 @@ async function paypalJson<T>(path: string, init?: RequestInit): Promise<T> {
 
 type CatalogProduct = { id: string; name: string };
 type BillingPlan = { id: string; name: string; product_id?: string; status?: string };
+type BillingPlanDetail = {
+  id: string;
+  billing_cycles?: {
+    tenure_type?: string;
+    pricing_scheme?: { fixed_price?: { value?: string } };
+  }[];
+};
+
+function catalogPrice(key: PlanKey): number {
+  return planByKey(key)?.price ?? 0;
+}
+
+function withCatalogPrices(rows: { key: PlanKey; planId: string | null }[]): PaypalPublicPlan[] {
+  return rows.map((row) => ({ ...row, price: catalogPrice(row.key) }));
+}
+
+function priceFromPlan(detail: BillingPlanDetail): number | null {
+  const cycles = detail.billing_cycles ?? [];
+  const regular = cycles.find((c) => c.tenure_type === "REGULAR") ?? cycles[0];
+  const raw = regular?.pricing_scheme?.fixed_price?.value;
+  if (!raw) return null;
+  const n = Number.parseFloat(raw);
+  return Number.isFinite(n) ? n : null;
+}
+
+async function overlayLivePrices(rows: PaypalPublicPlan[]): Promise<PaypalPublicPlan[]> {
+  if (!credentials()) return rows;
+  return Promise.all(
+    rows.map(async (row) => {
+      if (!row.planId) return row;
+      try {
+        const detail = await paypalJson<BillingPlanDetail>(`/v1/billing/plans/${row.planId}`);
+        const live = priceFromPlan(detail);
+        return live != null ? { ...row, price: live } : row;
+      } catch {
+        return row;
+      }
+    }),
+  );
+}
 
 async function findOrCreateProduct(name: string, description: string): Promise<string> {
   const listed = await paypalJson<{ products?: CatalogProduct[] }>(
@@ -140,15 +189,16 @@ export const paypalConfig = createServerFn({ method: "GET" }).handler(
     const clientId =
       env("PAYPAL_CLIENT_ID") || env("VITE_PAYPAL_CLIENT_ID") || PAYPAL_CLIENT_ID || null;
     const mode = paypalMode();
-    const baked = PLANS.map((p) => ({ key: p.key, planId: envPlanId(p.key) }));
+    const baked = withCatalogPrices(PLANS.map((p) => ({ key: p.key, planId: envPlanId(p.key) })));
     const bakedReady = Boolean(clientId && baked.every((p) => p.planId));
 
     if (bakedReady) {
+      const plans = await overlayLivePrices(baked);
       planCache = {
         ready: true,
         clientId,
         mode,
-        plans: baked,
+        plans,
         message: "PayPal subscriptions are live. Checkout uses the official button.",
       };
       return planCache;
@@ -178,11 +228,11 @@ export const paypalConfig = createServerFn({ method: "GET" }).handler(
     if (planCache?.ready && planCache.clientId === clientId) return planCache;
 
     try {
-      const plans: { key: PlanKey; planId: string | null }[] = [];
+      const plans: PaypalPublicPlan[] = [];
       for (const plan of PLANS) {
         const existing = envPlanId(plan.key);
         if (existing) {
-          plans.push({ key: plan.key, planId: existing });
+          plans.push({ key: plan.key, planId: existing, price: plan.price });
           continue;
         }
         const productId = await findOrCreateProduct(plan.name, plan.description);
@@ -192,13 +242,14 @@ export const paypalConfig = createServerFn({ method: "GET" }).handler(
           description: plan.description,
           price: plan.price,
         });
-        plans.push({ key: plan.key, planId });
+        plans.push({ key: plan.key, planId, price: plan.price });
       }
+      const priced = await overlayLivePrices(plans);
       planCache = {
-        ready: plans.every((p) => p.planId),
+        ready: priced.every((p) => p.planId),
         clientId,
         mode,
-        plans,
+        plans: priced,
         message: "PayPal subscriptions are live.",
       };
       return planCache;
@@ -213,4 +264,3 @@ export const paypalConfig = createServerFn({ method: "GET" }).handler(
     }
   },
 );
-

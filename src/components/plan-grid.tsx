@@ -1,6 +1,6 @@
 import { Check } from "lucide-react";
 import { PaypalSubscribeButton } from "@/components/paypal-button";
-import { PLANS, type PlanKey } from "@/lib/paypal/plans";
+import { formatPlanPrice, PLANS, type PlanKey } from "@/lib/paypal/plans";
 import type { PaypalPublic } from "@/lib/paypal/server";
 import { usePaypal } from "@/lib/paypal/store";
 import { cn } from "@/lib/utils";
@@ -11,7 +11,9 @@ export function PlanGrid({ config }: { config: PaypalPublic }) {
   return (
     <div className="grid gap-3 lg:grid-cols-3">
       {PLANS.map((plan) => {
-        const planId = config.plans.find((p) => p.key === plan.key)?.planId ?? null;
+        const row = config.plans.find((p) => p.key === plan.key);
+        const planId = row?.planId ?? null;
+        const price = row?.price ?? plan.price;
         const active = subscription?.planKey === plan.key;
         const canCheckout = Boolean(config.clientId && planId);
         return (
@@ -27,7 +29,7 @@ export function PlanGrid({ config }: { config: PaypalPublic }) {
             </p>
             <h2 className="mt-2 font-display text-2xl tracking-[-0.02em]">{plan.name}</h2>
             <p className="mt-3 font-display text-4xl tracking-[-0.03em]">
-              ${plan.price}
+              ${formatPlanPrice(price)}
               <span className="ml-1 text-base text-muted">/mo</span>
             </p>
             <p className="mt-3 text-sm leading-relaxed text-muted">{plan.description}</p>

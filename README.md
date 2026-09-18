@@ -13,7 +13,7 @@ Source: [github.com/buypeaky-crypto/Forge](https://github.com/buypeaky-crypto/Fo
 - **Vault** — permanence pins for public, permissively licensed Hub revisions. Official SHA-256 per file. HF web-seeds first; torrent bundle is fallback. Report + hide from day one.
 - **Conduit** — a local keyword router. The prompt never leaves the browser until Forge fetches Hub metadata.
 - **Donate** — a small send on BTC, ETH, or SOL keeps the workshop independent.
-- **Subscribe** — PayPal monthly: Vault Pro $29, Signals API $49, Sponsor $19.
+- **Subscribe** — PayPal monthly: Vault Pro $29, Signals API $49, Sponsor $10.99.
 
 Forge does **not** call xAI. There is no `XAI_API_KEY` in this app. Hub traffic goes to `huggingface.co/api`. Routing is a static rule table in `src/lib/conduit.ts`.
 
@@ -65,15 +65,15 @@ One-time crypto:
 
 ## Subscribe (PayPal)
 
-Recurring plans via PayPal Business (REST Catalog Products + Billing Plans).
+Recurring plans via PayPal Business (REST Catalog Products + Billing Plans). Checkout uses the official PayPal JS button with **plan IDs only** (no `PROD-` product IDs). Crypto one-time sends stay on `/donate`.
 
-| Plan | Price | Product |
-| --- | --- | --- |
-| Forge Vault Pro | $29/mo | 100 permanent pins, SHA-256 audit, web-seed guarantee |
-| Forge Signals API | $49/mo | 10k requests/mo, alerts, bay.json history |
-| Forge Sponsor | $19/mo | Logo in vault footer + 50 Pro pins |
+| Plan | Price | PayPal plan ID | Product |
+| --- | --- | --- | --- |
+| Forge Vault Pro | $29/mo | `P-1RB47360TY9799833NKWWBLY` | 100 permanent pins, SHA-256 audit, web-seed guarantee |
+| Forge Signals API | $49/mo | `P-2TX24136JD286434DNKWWBLY` | 10k requests/mo, alerts, bay.json history |
+| Forge Sponsor | $10.99/mo | `P-8HG92610GD659343PNKWBCBY` | Logo in vault footer + 50 Pro pins |
 
-Live PayPal Business checkout (Vault Pro, Signals API, Sponsor). The public Client ID and plan IDs are baked in; the Secret is not in the repo.
+Live PayPal Business checkout (Vault Pro, Signals API, Sponsor). The public Client ID and plan IDs are baked in; the Secret is not in the repo. Display copy matches these plan IDs; if `PAYPAL_CLIENT_SECRET` is set, Vault Pro / Signals prices overlay from the live Billing Plan.
 
 ## Run locally
 

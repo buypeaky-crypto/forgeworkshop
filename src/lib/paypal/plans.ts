@@ -40,7 +40,7 @@ export const PLANS = [
     key: "sponsor",
     product: "Sponsor",
     name: "Forge Sponsor",
-    price: 19,
+    price: 10.99,
     description: "Logo in vault footer + 50 Pro pins",
     features: ["Sponsor mark in the vault footer", "50 Pro vault pins", "Keeps the workshop independent"],
   },
@@ -50,4 +50,9 @@ export type PlanKey = (typeof PLANS)[number]["key"];
 
 export function planByKey(key: string) {
   return PLANS.find((p) => p.key === key);
+}
+
+/** $29 stays $29; $10.99 keeps cents. */
+export function formatPlanPrice(price: number): string {
+  return Number.isInteger(price) ? String(price) : price.toFixed(2);
 }
