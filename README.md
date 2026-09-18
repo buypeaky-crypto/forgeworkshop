@@ -73,7 +73,7 @@ Recurring plans via PayPal Business (REST Catalog Products + Billing Plans).
 | Forge Signals API | $49/mo | 10k requests/mo, alerts, bay.json history |
 | Forge Sponsor | $19/mo | Logo in vault footer + 50 Pro pins |
 
-Set `PAYPAL_CLIENT_ID` and `PAYPAL_CLIENT_SECRET` (optional `PAYPAL_ENV=live`). Sandbox is the default. The app creates the three products and plans on first load when the Secret is present.
+Live PayPal Business checkout (Vault Pro, Signals API, Sponsor). The public Client ID and plan IDs are baked in; the Secret is not in the repo.
 
 ## Run locally
 

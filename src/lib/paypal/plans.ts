@@ -1,3 +1,15 @@
+export const PAYPAL_MODE = "live" as const;
+
+/** Public REST Client ID (browser SDK). Secret is never shipped. */
+export const PAYPAL_CLIENT_ID =
+  "BAACmrgBU9Y2WQvxLemxUHGup5Il7me80I4BWA1XWcyqW1UAyh4XrxQyG6tC8-L6ChjX6jovyl2b6VBVq4";
+
+export const PAYPAL_PLAN_IDS = {
+  vault: "P-1RB47360TY9799833NKWWBLY",
+  signals: "P-2TX24136JD286434DNKWWBLY",
+  sponsor: "P-8HG92610GD659343PNKWBCBY",
+} as const;
+
 export const PLANS = [
   {
     key: "vault",

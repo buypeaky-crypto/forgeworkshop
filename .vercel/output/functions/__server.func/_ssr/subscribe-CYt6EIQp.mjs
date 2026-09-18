@@ -2,10 +2,10 @@ import { i as __toESM } from "../_runtime.mjs";
 import { V as require_react, v as Link, x as require_jsx_runtime } from "../_libs/@tanstack/react-router+[...].mjs";
 import { n as cn, t as Shell } from "./shell-C_CGWYDo.mjs";
 import { u as Check } from "../_libs/lucide-react.mjs";
-import { r as Route$1 } from "./router-CSkploew.mjs";
-import { t as PLANS } from "./plans-CGAQANW4.mjs";
+import { r as Route$1 } from "./router-DK1va6Dn.mjs";
+import { r as PLANS } from "./plans-DTpS9Q9L.mjs";
 import { n as usePaypal } from "./store-86dT0MeV.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/subscribe-Bobv4Zmp.js
+//#region node_modules/.nitro/vite/services/ssr/assets/subscribe-CYt6EIQp.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var sdkCache = /* @__PURE__ */ new Map();
@@ -180,7 +180,7 @@ function SubscribePage() {
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
 				className: "mt-10 max-w-2xl text-sm leading-relaxed text-muted",
 				children: [
-					"Need a Business app first: developer.paypal.com → Apps & Credentials → Create App. A Personal account cannot receive subscriptions. Then send the Client ID and Secret here. One-time support is still",
+					"Live PayPal checkout. One-time support is still",
 					" ",
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
 						to: "/donate",

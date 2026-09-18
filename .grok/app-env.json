@@ -1,5 +1,6 @@
 {
   "VITE_AUTH_ENABLED": "false",
+  "VITE_PAYPAL_CLIENT_ID": "BAACmrgBU9Y2WQvxLemxUHGup5Il7me80I4BWA1XWcyqW1UAyh4XrxQyG6tC8-L6ChjX6jovyl2b6VBVq4",
   "deploy": {
     "database": false
   }

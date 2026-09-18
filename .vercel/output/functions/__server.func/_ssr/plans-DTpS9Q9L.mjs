@@ -1,4 +1,10 @@
-//#region node_modules/.nitro/vite/services/ssr/assets/plans-CGAQANW4.js
+//#region node_modules/.nitro/vite/services/ssr/assets/plans-DTpS9Q9L.js
+var PAYPAL_MODE = "live";
+var PAYPAL_PLAN_IDS = {
+	vault: "P-1RB47360TY9799833NKWWBLY",
+	signals: "P-2TX24136JD286434DNKWWBLY",
+	sponsor: "P-8HG92610GD659343PNKWBCBY"
+};
 var PLANS = [
 	{
 		key: "vault",
@@ -38,4 +44,4 @@ var PLANS = [
 	}
 ];
 //#endregion
-export { PLANS as t };
+export { PAYPAL_PLAN_IDS as n, PLANS as r, PAYPAL_MODE as t };

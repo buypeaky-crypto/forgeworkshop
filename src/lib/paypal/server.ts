@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { env } from "@/lib/env.server";
-import { PLANS, type PlanKey } from "./plans";
+import { PAYPAL_CLIENT_ID, PAYPAL_MODE, PAYPAL_PLAN_IDS, PLANS, type PlanKey } from "./plans";
 
 export type PaypalPublic = {
   ready: boolean;
@@ -16,12 +16,18 @@ let tokenCache: { token: string; exp: number } | null = null;
 let planCache: PaypalPublic | null = null;
 
 function paypalBase(): string {
-  const mode = env("PAYPAL_ENV") === "live" ? "live" : "sandbox";
+  const mode = paypalMode();
   return mode === "live" ? "https://api-m.paypal.com" : "https://api-m.sandbox.paypal.com";
 }
 
+function paypalMode(): "sandbox" | "live" {
+  if (env("PAYPAL_ENV") === "sandbox") return "sandbox";
+  if (env("PAYPAL_ENV") === "live") return "live";
+  return PAYPAL_MODE;
+}
+
 function credentials(): { id: string; secret: string } | null {
-  const id = env("PAYPAL_CLIENT_ID") || env("VITE_PAYPAL_CLIENT_ID");
+  const id = env("PAYPAL_CLIENT_ID") || env("VITE_PAYPAL_CLIENT_ID") || PAYPAL_CLIENT_ID;
   const secret = env("PAYPAL_CLIENT_SECRET");
   if (!id || !secret) return null;
   return { id, secret };
@@ -122,40 +128,50 @@ async function findOrCreatePlan(input: {
 
 function envPlanId(key: PlanKey): string | null {
   const map: Record<PlanKey, string | undefined> = {
-    vault: env("PAYPAL_PLAN_VAULT"),
-    signals: env("PAYPAL_PLAN_SIGNALS"),
-    sponsor: env("PAYPAL_PLAN_SPONSOR"),
+    vault: env("PAYPAL_PLAN_VAULT") || PAYPAL_PLAN_IDS.vault,
+    signals: env("PAYPAL_PLAN_SIGNALS") || PAYPAL_PLAN_IDS.signals,
+    sponsor: env("PAYPAL_PLAN_SPONSOR") || PAYPAL_PLAN_IDS.sponsor,
   };
   return map[key] || null;
 }
 
 export const paypalConfig = createServerFn({ method: "GET" }).handler(
   async (): Promise<PaypalPublic> => {
-    const clientId = env("PAYPAL_CLIENT_ID") || env("VITE_PAYPAL_CLIENT_ID") || null;
-    const mode = env("PAYPAL_ENV") === "live" ? "live" : "sandbox";
-    const fromEnv = PLANS.map((p) => ({ key: p.key, planId: envPlanId(p.key) }));
+    const clientId =
+      env("PAYPAL_CLIENT_ID") || env("VITE_PAYPAL_CLIENT_ID") || PAYPAL_CLIENT_ID || null;
+    const mode = paypalMode();
+    const baked = PLANS.map((p) => ({ key: p.key, planId: envPlanId(p.key) }));
+    const bakedReady = Boolean(clientId && baked.every((p) => p.planId));
+
+    if (bakedReady) {
+      planCache = {
+        ready: true,
+        clientId,
+        mode,
+        plans: baked,
+        message: "PayPal subscriptions are live. Checkout uses the official button.",
+      };
+      return planCache;
+    }
 
     if (!clientId) {
       return {
         ready: false,
         clientId: null,
         mode,
-        plans: fromEnv,
+        plans: baked,
         message:
           "PayPal checkout is wired. Create a Business app at developer.paypal.com, then send the Client ID and Secret here.",
       };
     }
 
     if (!credentials()) {
-      const hasPlans = fromEnv.every((p) => p.planId);
       return {
-        ready: hasPlans,
+        ready: false,
         clientId,
         mode,
-        plans: fromEnv,
-        message: hasPlans
-          ? "PayPal Client ID is set. Subscribe with the buttons below."
-          : "Client ID is present. A Secret is still needed to create the three subscription plans.",
+        plans: baked,
+        message: "Client ID is present. A Secret is still needed to create the three subscription plans.",
       };
     }
 
@@ -191,9 +207,10 @@ export const paypalConfig = createServerFn({ method: "GET" }).handler(
         ready: false,
         clientId,
         mode,
-        plans: fromEnv,
+        plans: baked,
         message: err instanceof Error ? err.message : "PayPal plan setup failed",
       };
     }
   },
 );
+

@@ -2,7 +2,7 @@ import { i as __toESM } from "../_runtime.mjs";
 import { V as require_react, x as require_jsx_runtime } from "../_libs/@tanstack/react-router+[...].mjs";
 import { n as create, t as persist } from "../_libs/zustand.mjs";
 import { n as cn, r as formatBytes, s as shortSha } from "./shell-C_CGWYDo.mjs";
-import { _ as inspectForVault, b as verifyRemoteFile, y as probeTrust } from "./router-CSkploew.mjs";
+import { _ as inspectForVault, b as verifyRemoteFile, y as probeTrust } from "./router-DK1va6Dn.mjs";
 import { t as Button } from "./button-CrCrsTzg.mjs";
 import { a as isWeightPath, i as hubTreeUrl, r as hubCardUrl, t as fileSha256 } from "./webseed-CX85z8gt.mjs";
 //#region node_modules/.nitro/vite/services/ssr/assets/trust-panel-C8FohSzZ.js

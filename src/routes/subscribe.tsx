@@ -44,9 +44,7 @@ function SubscribePage() {
         </div>
 
         <p className="mt-10 max-w-2xl text-sm leading-relaxed text-muted">
-          Need a Business app first: developer.paypal.com → Apps & Credentials →
-          Create App. A Personal account cannot receive subscriptions. Then send
-          the Client ID and Secret here. One-time support is still{" "}
+          Live PayPal checkout. One-time support is still{" "}
           <Link to="/donate" className="text-fg hover:text-muted">
             BTC, ETH, or SOL
           </Link>

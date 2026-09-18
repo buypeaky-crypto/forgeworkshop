@@ -1,17 +1,22 @@
 import { t as createServerFn } from "./ssr.mjs";
 import { t as createServerRpc } from "./createServerRpc-A6pJPYTF.mjs";
-import { t as PLANS } from "./plans-CGAQANW4.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/server-Du_hPtZb.js
+import { n as PAYPAL_PLAN_IDS, r as PLANS, t as PAYPAL_MODE } from "./plans-DTpS9Q9L.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/server-Dg3BR37K.js
 function env(key) {
 	return process.env[key]?.trim() || void 0;
 }
 var tokenCache = null;
 var planCache = null;
 function paypalBase() {
-	return (env("PAYPAL_ENV") === "live" ? "live" : "sandbox") === "live" ? "https://api-m.paypal.com" : "https://api-m.sandbox.paypal.com";
+	return paypalMode() === "live" ? "https://api-m.paypal.com" : "https://api-m.sandbox.paypal.com";
+}
+function paypalMode() {
+	if (env("PAYPAL_ENV") === "sandbox") return "sandbox";
+	if (env("PAYPAL_ENV") === "live") return "live";
+	return PAYPAL_MODE;
 }
 function credentials() {
-	const id = env("PAYPAL_CLIENT_ID") || env("VITE_PAYPAL_CLIENT_ID");
+	const id = env("PAYPAL_CLIENT_ID") || env("VITE_PAYPAL_CLIENT_ID") || "BAACmrgBU9Y2WQvxLemxUHGup5Il7me80I4BWA1XWcyqW1UAyh4XrxQyG6tC8-L6ChjX6jovyl2b6VBVq4";
 	const secret = env("PAYPAL_CLIENT_SECRET");
 	if (!id || !secret) return null;
 	return {
@@ -101,9 +106,9 @@ async function findOrCreatePlan(input) {
 }
 function envPlanId(key) {
 	return {
-		vault: env("PAYPAL_PLAN_VAULT"),
-		signals: env("PAYPAL_PLAN_SIGNALS"),
-		sponsor: env("PAYPAL_PLAN_SPONSOR")
+		vault: env("PAYPAL_PLAN_VAULT") || PAYPAL_PLAN_IDS.vault,
+		signals: env("PAYPAL_PLAN_SIGNALS") || PAYPAL_PLAN_IDS.signals,
+		sponsor: env("PAYPAL_PLAN_SPONSOR") || PAYPAL_PLAN_IDS.sponsor
 	}[key] || null;
 }
 var paypalConfig_createServerFn_handler = createServerRpc({
@@ -112,29 +117,36 @@ var paypalConfig_createServerFn_handler = createServerRpc({
 	filename: "src/lib/paypal/server.ts"
 }, (opts) => paypalConfig.__executeServer(opts));
 var paypalConfig = createServerFn({ method: "GET" }).handler(paypalConfig_createServerFn_handler, async () => {
-	const clientId = env("PAYPAL_CLIENT_ID") || env("VITE_PAYPAL_CLIENT_ID") || null;
-	const mode = env("PAYPAL_ENV") === "live" ? "live" : "sandbox";
-	const fromEnv = PLANS.map((p) => ({
+	const clientId = env("PAYPAL_CLIENT_ID") || env("VITE_PAYPAL_CLIENT_ID") || "BAACmrgBU9Y2WQvxLemxUHGup5Il7me80I4BWA1XWcyqW1UAyh4XrxQyG6tC8-L6ChjX6jovyl2b6VBVq4";
+	const mode = paypalMode();
+	const baked = PLANS.map((p) => ({
 		key: p.key,
 		planId: envPlanId(p.key)
 	}));
+	if (Boolean(clientId && baked.every((p) => p.planId))) {
+		planCache = {
+			ready: true,
+			clientId,
+			mode,
+			plans: baked,
+			message: "PayPal subscriptions are live. Checkout uses the official button."
+		};
+		return planCache;
+	}
 	if (!clientId) return {
 		ready: false,
 		clientId: null,
 		mode,
-		plans: fromEnv,
+		plans: baked,
 		message: "PayPal checkout is wired. Create a Business app at developer.paypal.com, then send the Client ID and Secret here."
 	};
-	if (!credentials()) {
-		const hasPlans = fromEnv.every((p) => p.planId);
-		return {
-			ready: hasPlans,
-			clientId,
-			mode,
-			plans: fromEnv,
-			message: hasPlans ? "PayPal Client ID is set. Subscribe with the buttons below." : "Client ID is present. A Secret is still needed to create the three subscription plans."
-		};
-	}
+	if (!credentials()) return {
+		ready: false,
+		clientId,
+		mode,
+		plans: baked,
+		message: "Client ID is present. A Secret is still needed to create the three subscription plans."
+	};
 	if (planCache?.ready && planCache.clientId === clientId) return planCache;
 	try {
 		const plans = [];
@@ -171,7 +183,7 @@ var paypalConfig = createServerFn({ method: "GET" }).handler(paypalConfig_create
 			ready: false,
 			clientId,
 			mode,
-			plans: fromEnv,
+			plans: baked,
 			message: err instanceof Error ? err.message : "PayPal plan setup failed"
 		};
 	}

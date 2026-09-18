@@ -87,7 +87,7 @@ var HEADERS = { TSS_SHELL: "X-TSS_SHELL" };
 * the dev styles URL for route-scoped CSS collection.
 */
 async function getStartManifest(matchedRoutes) {
-	const { tsrStartManifest } = await import("../_tanstack-start-manifest_v-DamEl5Gp.mjs");
+	const { tsrStartManifest } = await import("../_tanstack-start-manifest_v-C2L9WHcB.mjs");
 	const startManifest = tsrStartManifest();
 	let routes = startManifest.routes;
 	routes[rootRouteId];
@@ -133,7 +133,7 @@ var manifest = {
 	},
 	"d7d484e44fee0b51d4adf98fb9a771bdfd0279664153f1844458064bc22238a9": {
 		functionName: "paypalConfig_createServerFn_handler",
-		importer: () => import("./server-Du_hPtZb.mjs")
+		importer: () => import("./server-Dg3BR37K.mjs")
 	},
 	"dc1436535abcc0a47feb3d53645ddcc208efcf0d2560039a5b75dedd919f62f4": {
 		functionName: "probeTrust_createServerFn_handler",
@@ -1407,7 +1407,7 @@ var getBaseManifest = getProdBaseManifest;
 var createEarlyHintsForRequest = createEarlyHintsCollector;
 async function loadEntries() {
 	const [routerEntry, startEntry, pluginAdapters] = await Promise.all([
-		import("./router-CSkploew.mjs").then((n) => n.t),
+		import("./router-DK1va6Dn.mjs").then((n) => n.t),
 		import("./start-5Z2QO8AU.mjs"),
 		import("./empty-plugin-adapters-D9UWiqvJ.mjs")
 	]);
