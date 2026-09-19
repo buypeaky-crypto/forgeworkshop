@@ -3,6 +3,7 @@ import { AuthProvider } from "@/lib/auth/provider";
 import { BayScheduler } from "@/lib/bay/scheduler";
 import { GA_MEASUREMENT_ID, GaPageviews } from "@/components/ga";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
+import { Analytics } from "@vercel/analytics/react";
 import appCss from "../styles.css?url";
 
 const APP_NAME = "Forge";
@@ -61,6 +62,7 @@ export const Route = createRootRoute({
           <BayScheduler />
           <Outlet />
         </AuthProvider>
+        <Analytics />
         <Scripts />
       </body>
     </html>
